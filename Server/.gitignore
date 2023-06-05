@@ -3,5 +3,3 @@ config/config.env
 ./node_modules
 /node_modules
 node_modules/
-./config/config.env
-config/config.env
