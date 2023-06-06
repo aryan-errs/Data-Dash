@@ -29,5 +29,5 @@ app.listen(PORT, () => {
 process.on('unhandledRejection', (err, promise) => {
     console.log(`Error: ${err.message}`.red.bold);
     // Close server & exit process
-    server.close(() => process.exit(1));
+    app.close(() => process.exit(1));
 })
