@@ -1,36 +1,50 @@
-import React from 'react'
-import Card from 'react-bootstrap/Card';
+import React from 'react';
+import { useState, useEffect } from 'react';
+import Popup from 'reactjs-popup';
 
 // we are returning a dynamic bootstrap card
 const CardsForData = ({ item }) => {
+    // console.log(item);
+    const [details, setDetails] = useState(false);
+    const showDetails = () => {
+        // expand the card to show the details
+        details ? setDetails(false) : setDetails(true);
+    }
+
     return (
-        <div className='cardDiv'>
-            <Card bg='light' border='dark' style={{ width: '14rem', margin: '1.2rem' }}>
-                <Card.Body>
-                    <Card.Title>Project Details</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{item.sector ? item.sector : "Sector"}</Card.Subtitle>
-                    <Card.Text className='cardText'>
-                        <ul>
-                            <li> {item.topic ? item.topic : "No Info"} </li>
-                            <li> {item.title ? item.title : "No Info"} </li>
-                            <li> {item.insight ? item.insight : "No Info"} </li>
-                            <li> {item.url ? item.url : "No Info"} </li>
-                            <li> {item.region ? item.region : "No Info"} </li>
-                            <li> {item.country ? item.country : "No Info"} </li>
-                            <li> {item.source ? item.source : "No Info"} </li>
-                            <li> {item.pestle ? item.pestle : "No Info"} </li>
-                            <li> {item.start_year ? item.start_year : "No Info"} </li>
-                            <li> {item.end_year ? item.end_year : "No Info"} </li>
-                            <li> {item.added ? item.added : "No Info"} </li>
-                            <li> {item.published ? item.published : "No Info"} </li>
-                            <li> {item.intensity ? item.intensity : "No Info"} </li>
-                            <li> {item.likelihood ? item.likelihood : "No Info"} </li>
-                        </ul>
-                    </Card.Text>
-                </Card.Body>
-            </Card>
+        <div className="card mx-auto" style={{ width: "22rem" }}>
+            <div className="card-header px-2" style={{ fontWeight: "bold", backgroundColor: '#9966CC', color: 'whitesmoke' }}>{item.insight}</div>
+            <ul className="list-group list-group-light list-group-small" style={{ padding: '10px' }}>
+                <li className="list-group-item px-3"> <b>Sector</b> : {item.sector ? item.sector : 'Unknown Sector'}</li>
+                <li className="list-group-item px-3"><b>Region </b>: {item.region ? item.region : 'Undisclosed'}</li>
+                <li className="list-group-item px-3"><b>Relevance </b>: {item.relevance}</li>
+            </ul>
+            <Popup trigger={<button type="button" class="btn btn-sm" onClick={showDetails} style={{ margin: '1rem', backgroundColor: '#6F2DA8', color: 'white', width: '8vw' }}>Show details</button>} modal position={'center center'} >
+                {
+                    close => (
+                        <div style={{background:'rgba(0,0,0,0.5)', height:'100vh', width:'100vw', display:'flex',justifyContent:'center', alignItems:'center'}}> 
+                            <div className="card mx-auto" style={{ width: "22rem", boxShadow: 'rgb(38, 57, 77) 0px 20px 30px -10px' }}>
+                                <div className="card-header px-2" style={{ fontWeight: "bold", backgroundColor: '#9966CC', color: 'whitesmoke' }}>{item.insight}</div>
+                                <ul className="list-group list-group-light list-group-small" style={{ padding: '10px' }}>
+                                    <li className="list-group-item px-3"> <b>Sector</b> : {item.sector ? item.sector : 'Unknown Sector'}</li>
+                                    <li className="list-group-item px-3"><b>Region </b>: {item.region ? item.region : 'Undisclosed'}</li>
+                                    <li className="list-group-item px-3"><b>Relevance </b>: {item.relevance}</li>
+                                    <li className="list-group-item px-3"><b>Country </b>: {item.country ? item.country : 'Undisclosed'}</li>
+                                    <li className="list-group-item px-3"><b>Topic </b>: {item.topic ? item.topic : 'Unknown'}</li>
+                                    <li className="list-group-item px-3"><b>Impact </b>: {item.impact ? item.impact: 'Unknown'}</li>
+                                    <li className="list-group-item px-3"><b>Source </b>: {item.source ? item.source : 'Unknown'}</li>
+                                    <li className="list-group-item px-3"><b>URL </b>: <a href={item.url} target="_blank" rel='noreferrer'>{item.url ? item.url : 'No link'}</a></li>
+
+                                </ul>
+                                <button type="button" class="btn btn-sm" onClick={() => { close(); }} style={{ margin: '1rem', backgroundColor: '#6F2DA8', color: 'white', width: '8vw' }}>Close</button>
+                            </div>
+                        </div>
+                    )
+                }
+            </Popup>
         </div>
     )
+
 }
 
 export default CardsForData
