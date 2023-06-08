@@ -1,16 +1,30 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useMemo, useEffect} from "react";
 import CardsForData from "./CardsForData";
+import Pagination from "./Pagination";
+import "./cardspage.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import axios from "axios";
+
+
+let PageSize = 12;
 
 const Cardspage = ({ data }) => {
 
+    const [currentPage, setCurrentPage] = useState(1);
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("");
-    const [filteredData, setFilteredData] = useState(data);
-    
+    const [filteredData, setFilteredData] = useState([]);
+
+
+    useEffect(() => {
+        setFilteredData(data);
+    }, [data]);
+    const currentTableData = useMemo(() => {
+        const firstPageIndex = (currentPage - 1) * PageSize;
+        const lastPageIndex = firstPageIndex + PageSize;
+        return filteredData.slice(firstPageIndex, lastPageIndex);
+    }, [currentPage, filteredData]);
 
     const handleCategory = (e) => {
         setCategory(e.target.value);
@@ -22,25 +36,29 @@ const Cardspage = ({ data }) => {
 
     const handleReset = () => {
         setFilteredData(data);
+        setSearch("");
+        setCategory("");
     }
 
     const handleFilter = () => {
-        if (category === "Year" || category === "year") {
+        const newCategory = category.charAt(0).toUpperCase() + category.slice(1);
+
+        if (newCategory === "Year") {
             setFilteredData(data.filter((item) => item.end_year === search));
         }
-        else if (category === "Topic" || category === "topic") {
+        else if (newCategory === "Topic") {
             setFilteredData(data.filter((item) => item.topic === search));
         }
-        else if (category === "Country" || category === "country") {
+        else if (newCategory === "Country") {
             setFilteredData(data.filter((item) => item.country === search));
         }
-        else if (category === "region" || category === "Region") {
+        else if (newCategory === "Region") {
             setFilteredData(data.filter((item) => item.region === search));
         }
-        else if (category === "sector" || category === "Sector") {
+        else if (newCategory === "Sector") {
             setFilteredData(data.filter((item) => item.sector === search));
         }
-        else if (category === "source" || category === "Source") {
+        else if (newCategory === "Source") {
             setFilteredData(data.filter((item) => item.source === search));
         }
     }
@@ -50,22 +68,34 @@ const Cardspage = ({ data }) => {
             <div style={{ display: 'flex', justifyContent: 'space-between', height: '5vh' }}>
                 <span><h1 className="text-uppercase text-start" style={{ fontWeight: 'bolder' }}>Projects</h1></span>
 
-                <div class="input-group" style={{ width: '20vw', display:'flex', justifyContent:'space-between' }}>
-                    <input type="search" class="form-control rounded" placeholder="Enter Category" aria-label="Search" onChange={handleCategory} />
-                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"  onChange={handleSearch} />
-                    <button type="button" class="btn btn-outline-primary" onClick={handleFilter} ><FontAwesomeIcon icon={faSearch}/></button>
+                <div style={{ width: '20vw', display: 'flex', justifyContent: 'space-between' }}>
+                <form className="input-group" style={{ width: '20vw', display: 'flex', justifyContent: 'space-between' }}>
+                    <input type="search" className="form-control rounded" placeholder="Enter Category" aria-label="Search" onChange={handleCategory} />
+                    <input type="search" className="form-control rounded" placeholder="Search" aria-label="Search" onChange={handleSearch} />
+                    
+                </form>
+                <button type="button" className="button" onClick={handleFilter} ><FontAwesomeIcon icon={faSearch} /></button>
                 </div>
-                <span><button onClick={handleReset} type="button"class="btn btn-outline-secondary" >Reset Filters</button></span>
+                <span><button onClick={handleReset} type="button" className="btn btn-outline-secondary" >Reset Filters</button></span>
             </div>
             <hr />
+            <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={data.length}
+                pageSize={PageSize}
+                onPageChange={page => setCurrentPage(page)}
+            />
+            <br />
             <div className="row mx-auto" >
-                {filteredData.map((item) => (
+                {currentTableData.map((item) => (
                     <div className="col-md-4">
                         <CardsForData item={item} />
                         <br />
                     </div>
                 ))}
             </div>
+
 
 
         </div>

@@ -1,0 +1,18 @@
+.form-control{
+    margin-right: 1rem;
+}
+.button{
+    border-color: #b19ff9;
+    width: 20%;
+    border-radius: 10%;
+    background-color: #b19ff9;
+}
+.button:hover{
+    background-color: #7060af;
+    border-color: #6d5fa6;
+}
+.pagination-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}  

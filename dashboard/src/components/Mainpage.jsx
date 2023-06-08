@@ -14,16 +14,17 @@ const Mainpage = ({ data, setMainData }) => {
 
 
             <Tabs
-                defaultActiveKey="chart"
+                defaultActiveKey="cards"
                 id="uncontrolled-tab-example"
                 className="mb-3"
             >
-                <Tab eventKey="chart" title="Interactive Insights/Dashboard">
-                    <ChartsPage data={data} />
-                </Tab>
-                <Tab eventKey="crds" title="Projects">
+                <Tab eventKey="cards" title="Projects">
                     <Cardspage data={data} />
                 </Tab>
+                <Tab eventKey="chart" title="Interactive Insights">
+                    <ChartsPage data={data} />
+                </Tab>
+                
             </Tabs>
         </div>
     );
