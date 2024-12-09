@@ -6,7 +6,7 @@ const dataModel = require('./models/data');
 
 
 // Load env vars
-dotenv.config({ path: './config/config.env' });
+dotenv.config({ path: './config/.env' });
 // Connect to DB
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGO_URI, {

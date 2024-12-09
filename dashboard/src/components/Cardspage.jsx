@@ -70,7 +70,7 @@ const Cardspage = ({ data }) => {
 
                 <div style={{ width: '20vw', display: 'flex', justifyContent: 'space-between' }}>
                 <form className="input-group" style={{ width: '20vw', display: 'flex', justifyContent: 'space-between' }}>
-                    <input type="search" className="form-control rounded" placeholder="Enter Category" aria-label="Search" onChange={handleCategory} />
+                    <input type="search" className="form-control rounded" placeholder="Category" aria-label="Search" onChange={handleCategory} />
                     <input type="search" className="form-control rounded" placeholder="Search" aria-label="Search" onChange={handleSearch} />
                     
                 </form>
